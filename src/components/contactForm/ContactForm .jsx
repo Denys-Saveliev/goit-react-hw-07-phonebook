@@ -1,11 +1,9 @@
-import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import Notiflix from 'notiflix';
 import s from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, getItems } from 'redux/contactsSlice';
-import { nanoid } from 'nanoid';
+import { contactsOperations, contactsSelectors } from '../../redux/contacts';
 
 const warningNameValidation = () =>
   Notiflix.Notify.failure(
@@ -26,9 +24,9 @@ const schema = yup.object().shape({
 const initialValues = { name: '', number: '' };
 
 const ContactForm = () => {
-  const id = nanoid();
-  const dispath = useDispatch();
-  const contacts = useSelector(getItems);
+  const dispatch = useDispatch();
+
+  const contacts = useSelector(contactsSelectors.getContacts);
 
   const handleSubmit = (values, { resetForm }) => {
     if (
@@ -39,7 +37,8 @@ const ContactForm = () => {
       Notiflix.Notify.failure(`${values.name} is already in contacts`);
       return;
     }
-    dispath(addItem({ id, ...values }));
+
+    dispatch(contactsOperations.addContact(values));
     resetForm();
   };
 
