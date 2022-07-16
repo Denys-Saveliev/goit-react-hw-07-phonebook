@@ -3,7 +3,8 @@ import * as yup from 'yup';
 import Notiflix from 'notiflix';
 import s from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { contactsOperations, contactsSelectors } from '../../redux/contacts';
+import { addContact } from 'redux/contacts/contactsOperations';
+import { getContacts } from 'redux/contacts/contactsSelectors';
 
 const warningNameValidation = () =>
   Notiflix.Notify.failure(
@@ -26,7 +27,7 @@ const initialValues = { name: '', number: '' };
 const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const contacts = useSelector(contactsSelectors.getContacts);
+  const contacts = useSelector(getContacts);
 
   const handleSubmit = (values, { resetForm }) => {
     if (
@@ -38,7 +39,7 @@ const ContactForm = () => {
       return;
     }
 
-    dispatch(contactsOperations.addContact(values));
+    dispatch(addContact(values));
     resetForm();
   };
 

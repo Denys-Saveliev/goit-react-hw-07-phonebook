@@ -1,35 +1,33 @@
 import { createReducer, combineReducers } from '@reduxjs/toolkit';
-import * as contactsActions from './contactsActions';
+import { fetchContacts, addContact, deleteContact } from './contactsOperations';
+import { changeFilter } from './contactsActions';
 
 const items = createReducer([], {
-  [contactsActions.fetchContactsSuccess]: (_, action) => action.payload,
-  [contactsActions.createContactSuccess]: (state, { payload }) => [
-    ...state,
-    payload,
-  ],
-  [contactsActions.deleteContactSuccess]: (state, { payload }) =>
-    state.filter(({ id }) => id !== payload),
+  [fetchContacts.fulfilled]: (_, { payload }) => payload,
+  [addContact.fulfilled]: (state, { payload }) => [...state, payload],
+  [deleteContact.fulfilled]: (state, { payload }) =>
+    state.filter(({ id }) => id !== payload.id),
 });
 
 const isLoading = createReducer(false, {
-  [contactsActions.fetchContactsRequest]: () => true,
-  [contactsActions.fetchContactsSuccess]: () => false,
-  [contactsActions.fetchContactsError]: () => false,
-  [contactsActions.createContactRequest]: () => true,
-  [contactsActions.createContactSuccess]: () => false,
-  [contactsActions.createContactError]: () => false,
-  [contactsActions.deleteContactRequest]: () => true,
-  [contactsActions.deleteContactSuccess]: () => false,
-  [contactsActions.deleteContactError]: () => false,
+  [fetchContacts.pending]: () => true,
+  [fetchContacts.fulfilled]: () => false,
+  [fetchContacts.rejected]: () => false,
+  [addContact.pending]: () => true,
+  [addContact.fulfilled]: () => false,
+  [addContact.rejected]: () => false,
+  [deleteContact.pending]: () => true,
+  [deleteContact.fulfilled]: () => false,
+  [deleteContact.rejected]: () => false,
 });
 
 const error = createReducer(null, {
-  [contactsActions.fetchContactsError]: (_, action) => action.payload,
-  [contactsActions.fetchContactsRequest]: () => null,
+  [fetchContacts.rejected]: (_, action) => action.payload,
+  [fetchContacts.pending]: () => null,
 });
 
 const filter = createReducer('', {
-  [contactsActions.changeFilter]: (_, { payload }) => payload,
+  [changeFilter]: (_, { payload }) => payload,
 });
 
 export const rootReducer = combineReducers({

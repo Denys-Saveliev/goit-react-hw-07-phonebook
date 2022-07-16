@@ -1,6 +1,7 @@
 import s from './Filter.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { contactsActions, contactsSelectors } from '../../redux/contacts';
+import { contactsSelectors } from '../../redux/contacts';
+import { changeFilter } from 'redux/contacts/contactsActions';
 
 const Filter = () => {
   const value = useSelector(contactsSelectors.getFilter);
@@ -12,7 +13,7 @@ const Filter = () => {
       placeholder="Find contacts by name"
       type="text"
       value={value}
-      onChange={e => dispath(contactsActions.changeFilter(e.target.value))}
+      onChange={e => dispath(changeFilter(e.target.value))}
     />
   );
 };
