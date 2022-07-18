@@ -19,10 +19,15 @@ const schema = yup.object().shape({
     .string()
     .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/)
     .required(),
-  number: yup.number().required(),
+  phone: yup
+    .string()
+    .matches(
+      /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/
+    )
+    .required(),
 });
 
-const initialValues = { name: '', number: '' };
+const initialValues = { name: '', phone: '' };
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -54,12 +59,12 @@ const ContactForm = () => {
         <ErrorMessage name="name" render={warningNameValidation} />
 
         <Field
-          placeholder="Number"
+          placeholder="Phone number"
           className={s.input}
           type="tel"
-          name="number"
+          name="phone"
         />
-        <ErrorMessage name="number" render={warningNumberValidation} />
+        <ErrorMessage name="phone" render={warningNumberValidation} />
 
         <button className={s.btn} type="submit">
           Add contact
