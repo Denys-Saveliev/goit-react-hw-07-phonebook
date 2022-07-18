@@ -9,13 +9,19 @@ const items = createReducer([], {
     state.filter(({ id }) => id !== payload.id),
 });
 
-const isLoading = createReducer(false, {
+const isFetching = createReducer(false, {
   [fetchContacts.pending]: () => true,
   [fetchContacts.fulfilled]: () => false,
   [fetchContacts.rejected]: () => false,
+});
+
+const isAdding = createReducer(false, {
   [addContact.pending]: () => true,
   [addContact.fulfilled]: () => false,
   [addContact.rejected]: () => false,
+});
+
+const isDeleting = createReducer(false, {
   [deleteContact.pending]: () => true,
   [deleteContact.fulfilled]: () => false,
   [deleteContact.rejected]: () => false,
@@ -33,6 +39,8 @@ const filter = createReducer('', {
 export const rootReducer = combineReducers({
   items,
   filter,
-  isLoading,
+  isFetching,
+  isAdding,
+  isDeleting,
   error,
 });

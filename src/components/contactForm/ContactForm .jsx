@@ -4,7 +4,8 @@ import Notiflix from 'notiflix';
 import s from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contacts/contactsOperations';
-import { getContacts, isLoading } from 'redux/contacts/contactsSelectors';
+import { getContacts, isAdding } from 'redux/contacts/contactsSelectors';
+import { Loader } from 'components/Loader/Loader';
 
 const warningNameValidation = () =>
   Notiflix.Notify.failure(
@@ -33,7 +34,7 @@ const ContactForm = () => {
   const dispatch = useDispatch();
 
   const contacts = useSelector(getContacts);
-  const loading = useSelector(isLoading);
+  const isLoading = useSelector(isAdding);
 
   const handleSubmit = (values, { resetForm }) => {
     if (
@@ -70,7 +71,7 @@ const ContactForm = () => {
         <ErrorMessage name="phone" render={warningNumberValidation} />
 
         <button className={s.btn} type="submit">
-          {loading ? 'Loading...' : 'Add contact'}
+          {isLoading ? <Loader /> : 'Add contact'}
         </button>
       </Form>
     </Formik>
