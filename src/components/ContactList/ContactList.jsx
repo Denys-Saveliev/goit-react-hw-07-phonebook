@@ -6,6 +6,7 @@ import {
   fetchContacts,
   deleteContact,
 } from 'redux/contacts/contactsOperations';
+import Notiflix from 'notiflix';
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -21,12 +22,17 @@ const ContactList = () => {
     )
   );
 
+  const handleDeleteContact = id =>
+    dispatch(deleteContact(id)).then(() =>
+      Notiflix.Notify.success('Contact successfully removed!')
+    );
+
   return (
     <ul className={s.list}>
       {contacts.map(({ name, id, phone }) => (
         <li key={id} className={s.item}>
           {name}: {phone}
-          <button className={s.btn} onClick={() => dispatch(deleteContact(id))}>
+          <button className={s.btn} onClick={() => handleDeleteContact(id)}>
             Delete
           </button>
         </li>
