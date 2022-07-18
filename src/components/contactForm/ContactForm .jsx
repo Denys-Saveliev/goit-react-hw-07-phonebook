@@ -44,7 +44,9 @@ const ContactForm = () => {
       return;
     }
 
-    dispatch(addContact(values));
+   dispatch(addContact(values)).then(
+      Notiflix.Notify.success('Contact added to your phonebook!')
+    );
     resetForm();
   };
 
