@@ -23,9 +23,9 @@ const ContactList = () => {
 
   return (
     <ul className={s.list}>
-      {contacts.map(({ name, id, number }) => (
+      {contacts.map(({ name, id, phone }) => (
         <li key={id} className={s.item}>
-          {name}: {number}
+          {name}: {phone}
           <button className={s.btn} onClick={() => dispatch(deleteContact(id))}>
             Delete
           </button>
