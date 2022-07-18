@@ -1,7 +1,11 @@
 import s from './ContactList.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { getFilter } from 'redux/contacts/contactsSelectors';
+import {
+  getFilter,
+  isLoading,
+  getContacts,
+} from 'redux/contacts/contactsSelectors';
 import {
   fetchContacts,
   deleteContact,
@@ -15,11 +19,10 @@ const ContactList = () => {
   }, [dispatch]);
 
   const value = useSelector(getFilter);
+  const loading = useSelector(isLoading);
 
-  const contacts = useSelector(state =>
-    state.contacts.items.filter(item =>
-      item.name.toLowerCase().includes(value.toLowerCase())
-    )
+  const contacts = useSelector(getContacts).filter(item =>
+    item.name.toLowerCase().includes(value.toLowerCase())
   );
 
   const handleDeleteContact = id =>
@@ -33,7 +36,7 @@ const ContactList = () => {
         <li key={id} className={s.item}>
           {name}: {phone}
           <button className={s.btn} onClick={() => handleDeleteContact(id)}>
-            Delete
+            {loading ? 'Loading...' : 'Delete'}
           </button>
         </li>
       ))}
