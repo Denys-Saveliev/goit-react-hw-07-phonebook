@@ -1,4 +1,5 @@
 .form {
+   position: relative;
    display: flex;
    align-items: center;
    flex-direction: column;
@@ -11,14 +12,41 @@
 }
 
 .input {
+   width: 230px;
    margin-bottom: 15px;
-   padding: 6px 15px;
    border: none;
-   border-radius: 10px;
-   background-color: rgb(243, 242, 242);
+   background-color: inherit;
+   border: 0;
+   padding: 7px 0;
+   outline: none;
+   border-bottom: 1px solid #ccc;
 }
 
+.input[type='text']~.inputNameFocus,
+.input[type='text']~.inputTelFocus {
+   position: absolute;
+   width: 0;
+   height: 2px;
+   background-color: rgb(63, 40, 40);
+   transition: 0.4s;
+}
 
+.input[type='text']~.inputNameFocus {
+   top: 29px;
+   left: 75px;
+
+}
+
+.input[type='text']:focus~.inputNameFocus,
+.input[type='tel']:focus~.inputTelFocus {
+   width: 230px;
+   transition: 0.4s;
+}
+
+.input[type='tel']~.inputTelFocus {
+   top: 73px;
+   left: 75px;
+}
 
 .btn {
    border-radius: 5px;

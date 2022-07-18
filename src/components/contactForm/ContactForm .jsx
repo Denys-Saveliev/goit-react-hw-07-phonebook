@@ -60,6 +60,7 @@ const ContactForm = () => {
     >
       <Form className={s.form}>
         <Field placeholder="Name" className={s.input} type="text" name="name" />
+        <span className={s.inputNameFocus}></span>
         <ErrorMessage name="name" render={warningNameValidation} />
 
         <Field
@@ -68,6 +69,7 @@ const ContactForm = () => {
           type="tel"
           name="phone"
         />
+        <span className={s.inputTelFocus}></span>
         <ErrorMessage name="phone" render={warningNumberValidation} />
 
         <button className={s.btn} type="submit">
