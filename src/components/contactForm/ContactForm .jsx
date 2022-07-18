@@ -12,7 +12,7 @@ const warningNameValidation = () =>
   );
 
 const warningNumberValidation = () =>
-  Notiflix.Notify.failure('Please type a valid value!');
+  Notiflix.Notify.failure('Please type a valid Phone number!');
 
 const schema = yup.object().shape({
   name: yup
