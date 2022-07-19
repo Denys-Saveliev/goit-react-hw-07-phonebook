@@ -1,12 +1,7 @@
+import PropTypes from 'prop-types';
 import s from './Filter.module.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { contactsSelectors } from '../../redux/contacts';
-import { changeFilter } from 'redux/contacts/contactsActions';
 
-const Filter = () => {
-  const value = useSelector(contactsSelectors.getFilter);
-  const dispath = useDispatch();
-
+const Filter = ({ value, onChange }) => {
   return (
     <>
       <input
@@ -14,10 +9,15 @@ const Filter = () => {
         placeholder="Find contacts by name"
         type="text"
         value={value}
-        onChange={e => dispath(changeFilter(e.target.value))}
+        onChange={onChange}
       />
       <span className={s.inputFocusFilter}></span>
     </>
   );
 };
 export default Filter;
+
+Filter.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};

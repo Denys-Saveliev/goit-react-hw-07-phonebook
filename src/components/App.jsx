@@ -3,31 +3,36 @@ import Section from './Section';
 import ContactForm from './contactForm';
 import Filter from './Filter';
 import ContactList from './ContactList';
-import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { fetchContacts } from 'redux/contacts/contactsOperations';
 import { Loader } from './Loader/Loader';
-import { getContacts, isFetching } from '../redux/contacts/contactsSelectors';
+import { useFetchContactsQuery } from 'redux/contacts/contactsApiSlice';
+import { useState } from 'react';
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
-  const contacts = useSelector(getContacts);
-  const isLoading = useSelector(isFetching);
+  const [filter, setfilter] = useState('');
+
+  const handleFilterChange = e => setfilter(e.target.value);
+
+  const { isLoading, data } = useFetchContactsQuery();
+
+  const showData = data && data.length > 0;
+
   return (
     <Container>
       <Section title="Phonebook">
         <ContactForm />
       </Section>
       {isLoading && <Loader />}
-      {contacts.length > 0 && (
-        <Section title="Contacts">
-          <Filter />
-          <ContactList />
-        </Section>
-      )}
+
+      <Section title="Contacts">
+        <Filter value={filter} onChange={handleFilterChange} />
+        {showData && (
+          <ContactList
+            contacts={data.filter(({ name }) =>
+              name.toLowerCase().includes(filter.toLowerCase())
+            )}
+          />
+        )}
+      </Section>
     </Container>
   );
 }

@@ -2,9 +2,10 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import Notiflix from 'notiflix';
 import s from './ContactForm.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/contacts/contactsOperations';
-import { getContacts, isAdding } from 'redux/contacts/contactsSelectors';
+import {
+  useFetchContactsQuery,
+  useCreateContactMutation,
+} from 'redux/contacts/contactsApiSlice';
 import { Loader } from 'components/Loader/Loader';
 
 const warningNameValidation = () =>
@@ -31,14 +32,12 @@ const schema = yup.object().shape({
 const initialValues = { name: '', phone: '' };
 
 const ContactForm = () => {
-  const dispatch = useDispatch();
-
-  const contacts = useSelector(getContacts);
-  const isLoading = useSelector(isAdding);
+  const { data } = useFetchContactsQuery();
+  const [createContact, { isLoading }] = useCreateContactMutation();
 
   const handleSubmit = (values, { resetForm }) => {
     if (
-      contacts.find(
+      data.find(
         contact => contact.name.toLowerCase() === values.name.toLowerCase()
       )
     ) {
@@ -46,7 +45,7 @@ const ContactForm = () => {
       return;
     }
 
-    dispatch(addContact(values)).then(() =>
+    createContact(values).then(() =>
       Notiflix.Notify.success('Contact added to your phonebook!')
     );
     resetForm();
@@ -58,7 +57,7 @@ const ContactForm = () => {
       initialValues={initialValues}
       validationSchema={schema}
     >
-      <Form className={s.form}>
+      <Form className={s.form} autoComplete="off">
         <Field placeholder="Name" className={s.input} type="text" name="name" />
         <span className={s.inputNameFocus}></span>
         <ErrorMessage name="name" render={warningNameValidation} />
