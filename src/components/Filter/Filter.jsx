@@ -8,13 +8,16 @@ const Filter = () => {
   const dispath = useDispatch();
 
   return (
-    <input
-      className={s.input}
-      placeholder="Find contacts by name"
-      type="text"
-      value={value}
-      onChange={e => dispath(changeFilter(e.target.value))}
-    />
+    <>
+      <input
+        className={s.input}
+        placeholder="Find contacts by name"
+        type="text"
+        value={value}
+        onChange={e => dispath(changeFilter(e.target.value))}
+      />
+      <span className={s.inputFocusFilter}></span>
+    </>
   );
 };
 export default Filter;
