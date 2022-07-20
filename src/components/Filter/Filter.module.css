@@ -18,7 +18,7 @@
 .input[type='text']~.inputFocusFilter {
    position: absolute;
    top: 388px;
-   left: 560px;
+   left: 568px;
    width: 0;
    height: 2px;
    background-color: rgb(63, 40, 40);

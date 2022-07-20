@@ -14,7 +14,7 @@ function App() {
 
   const { isLoading, data } = useFetchContactsQuery();
 
-  const showData = data && data.length > 0;
+  const showData = data?.length > 0;
 
   return (
     <Container>
